@@ -29,9 +29,9 @@
   "skinType": "oily",
   "concerns": ["acne"]
 }
+
 ✔ 2) 성분 추천
 예시:
-
 지성 + 여드름 → 살리실산(Salicylic Acid), 나이아신아마이드(Niacinamide)
 
 ✔ 3) 화장품 추천
@@ -40,15 +40,12 @@
 📡 API 명세
 ▶ POST /recommend
 📥 Request(JSON)
-json
-코드 복사
 {
   "skinType": "oily",
   "concerns": ["acne"]
 }
+
 📤 Response 예시
-json
-코드 복사
 {
   "skinType": "oily",
   "concerns": ["acne"],
@@ -64,22 +61,19 @@ json
     }
   ]
 }
+
+
 🧠 추천 알고리즘 설명
+
 간단한 조건 기반 필터링 방식입니다.
 
-입력받은 skinType(피부 타입)이 성분의 지원 유형에 포함되는지 검사
-
-입력받은 concerns(고민)과 성분이 해결하는 고민이 겹치는지 검사
-
-두 조건을 모두 만족하는 성분만 추천
-
-추천 성분이 포함된 제품만 필터링하여 반환
-
+1. 입력받은 skinType(피부 타입)이 성분의 지원 유형에 포함되는지 검사
+2. 입력받은 concerns(고민)과 성분이 해결하는 고민이 겹치는지 검사
+3.두 조건을 모두 만족하는 성분만 추천
+4.추천 성분이 포함된 제품만 필터링하여 반환
 → NestJS의 서비스 계층에서 수행되는 순수 로직이기 때문에 구조가 깔끔하고 확장성이 좋습니다.
 
 🧱 아키텍처 구조 (NestJS)
-cpp
-코드 복사
 src
 ├── app.module.ts
 ├── recommend
@@ -88,62 +82,48 @@ src
 │   ├── recommend.service.ts      → 추천 로직 실행
 │   └── recommend.dto.ts          → 입력 데이터 형식 정의
 └── main.ts
+
 Service: 비즈니스 로직 수행
-
 Controller: 요청/응답 처리
-
 Module: 기능 단위 구조화
 
+
 🔐 에러 처리 방안
+
 JSON Body 누락 시 → 400 Bad Request
-
 예상치 못한 오류 → 500 Internal Server Error
-
 타입 검증 → DTO에서 수행 가능
 
 🤖 AI 활용 내역
+
 이 프로젝트는 개발 과정 전반에 AI를 적극적으로 사용했습니다.
-
 프로젝트 아이디어 도출 → ChatGPT
-
 NestJS 구조 생성 & 오류 해결 → ChatGPT 디버깅
-
 TypeScript 코드 자동 생성 → GitHub Copilot
-
 추천 로직 설계 → ChatGPT와 협업
-
 README 및 발표 정리 → ChatGPT 활용
-
 → AI 도구 다양성, 프롬프트 엔지니어링, 실제 문제 해결 과정 모두 포함됨.
 
 🧪 실행 방법
 1️⃣ 의존성 설치
-nginx
-코드 복사
 npm install
+
 2️⃣ 서버 실행
-arduino
-코드 복사
 npm run start:dev
+
 3️⃣ API 테스트
 Thunder Client 또는 Postman에서 요청:
-
-bash
-코드 복사
 POST http://localhost:3000/recommend
+
 Body → JSON 입력 후 요청
 
 📌 향후 개선 예정 기능
+
 화장품 제품군 데이터 확장
-
 DB 연동(SQLite, PostgreSQL 등)
-
 프론트엔드 입력 화면 추가
-
 더 정교한 추천 알고리즘 적용 (AI 기반)
 
 ✨ 작성자
 박예희 — 2025 고급 웹프로그래밍
 
-yaml
-코드 복사
