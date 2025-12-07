@@ -29,6 +29,7 @@
   "skinType": "oily",
   "concerns": ["acne"]
 }
+```
 
 # ✔ 2) 성분 추천  
 예시:  
