@@ -1,98 +1,133 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+🧴 프로젝트 소개
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+이 프로젝트는 사용자가 자신의 피부 타입(지성/건성/복합성/민감성)과
+피부 고민(여드름/홍조/주름/미백 등)을 선택하면,
+조건에 맞는 추천 성분과 화장품 리스트를 반환하는 NestJS 기반 백엔드 서비스입니다.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+회원가입 없이 즉시 사용할 수 있는 간단하고 직관적인 추천 기능을 목표로 합니다.
 
-## Description
+🚀 기술 스택
+영역	사용 기술
+백엔드 프레임워크	NestJS
+프로그래밍 언어	TypeScript
+서버 실행 환경	Node.js
+API 테스트	Thunder Client / Postman
+AI 활용	ChatGPT, GitHub Copilot
+📂 주요 기능
+✔ 1. 피부 타입 + 고민 입력
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+사용자 입력(JSON):
 
-## Project setup
+{
+  "skinType": "oily",
+  "concerns": ["acne"]
+}
 
-```bash
-$ npm install
-```
+✔ 2. 성분 추천
 
-## Compile and run the project
+예: 지성 + 여드름 → 살리실산(Salicylic Acid), 나이아신아마이드(Niacinamide)
 
-```bash
-# development
-$ npm run start
+✔ 3. 화장품 추천
 
-# watch mode
-$ npm run start:dev
+추천된 성분이 포함된 제품 목록 반환
 
-# production mode
-$ npm run start:prod
-```
+📡 API 명세
+POST /recommend
+📥 Request (JSON)
+{
+  "skinType": "oily",
+  "concerns": ["acne"]
+}
 
-## Run tests
+📤 Response 예시
+{
+  "skinType": "oily",
+  "concerns": ["acne"],
+  "recommendedIngredients": [
+    "살리실산",
+    "나이아신아마이드"
+  ],
+  "recommendedProducts": [
+    {
+      "name": "더랩바이블랑두 살리실산 토너",
+      "brand": "The Lab",
+      "ingredients": ["살리실산"]
+    }
+  ]
+}
 
-```bash
-# unit tests
-$ npm run test
+🧠 추천 알고리즘 설명
 
-# e2e tests
-$ npm run test:e2e
+간단한 조건 기반 필터링 방식입니다.
 
-# test coverage
-$ npm run test:cov
-```
+입력받은 skinType(피부 타입)이 성분의 지원 유형에 포함되는지 검사
 
-## Deployment
+입력받은 concerns(고민 리스트)와 성분이 해결하는 고민이 겹치는지 검사
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+두 조건을 모두 만족하는 성분만 추천
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+추천 성분이 포함된 제품만 필터링하여 반환
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+→ NestJS의 서비스 계층에서 수행하는 순수 로직이기 때문에
+구조가 깔끔하고 확장성이 좋습니다.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+🧱 아키텍처 구조 (NestJS)
+src
+ ├── app.module.ts
+ ├── recommend
+ │    ├── recommend.module.ts   → 모듈 선언
+ │    ├── recommend.controller.ts → POST /recommend 처리
+ │    ├── recommend.service.ts → 추천 로직 실행
+ │    └── recommend.dto.ts → 입력 데이터 형식 정의
+ ├── main.ts
 
-## Resources
 
-Check out a few resources that may come in handy when working with NestJS:
+→ 서비스(Service) 계층에서 비즈니스 로직을 수행
+→ 컨트롤러(Controller) 계층에서 요청/응답 처리
+→ **모듈(Module)**로 기능 단위 구조화
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+🔐 에러 처리 방안
 
-## Support
+JSON Body가 없는 경우 400 Bad Request 처리 가능
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+예상치 못한 오류 발생 시 500 Internal Error 반환
 
-## Stay in touch
+타입 검증은 DTO에서 수행 가능
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+🤖 AI 활용 내
 
-## License
+이 프로젝트는 개발 과정 전반에 AI를 적극적으로 사용했습니다.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+✔ 1. 프로젝트 아이디어 브레인스토밍 → ChatGPT로 도출
+✔ 2. NestJS 구조 생성 & 코드 오류 해결 → ChatGPT로 디버깅
+✔ 3. TypeScript 모듈 구조 생성 → GitHub Copilot가 자동 제안
+✔ 4. 추천 로직 설계 → AI와 협업하여 매핑 테이블 구성
+✔ 5. README 및 발표 정리 → ChatGPT 활용
+
+→ AI 도구 다양성, 프롬프트 엔지니어링, 실제 문제 해결 과정 모두 반영됨.
+
+🧪 실행 방법
+1️⃣ 프로젝트 설치
+npm install
+
+2️⃣ 서버 실행
+npm run start:dev
+
+3️⃣ API 테스트
+
+Thunder Client 또는 Postman에서:
+
+POST http://localhost:3000/recommend
+
+
+Body → JSON 설정 후 요청
+
+📌 향후 개선할 점
+
+화장품 제품군 데이터 확장
+
+DB 연동(SQLite, PostgreSQL 등)
+
+프론트엔드 입력 화면 추가 (React or simple HTML form)
+
+더 정교한 추천 알고리즘 적용 (AI 모델 가능)
