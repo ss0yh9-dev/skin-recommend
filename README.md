@@ -144,6 +144,3 @@ DB 연동(SQLite, PostgreSQL 등)
 
 ✨ 작성자
 박예희 — 2025 고급 웹프로그래밍
-
-yaml
-코드 복사
